@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VEF Exchange</string>
+    <string name="endpoint">http://vefexange.appjango.com/api/</string>
 </resources>
