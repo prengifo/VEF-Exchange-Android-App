@@ -25,6 +25,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by Patrick Rengifo on 16/12/16.
+ * This service calls the endpoints to the current currency data
  */
 
 public class UpdateDataService extends IntentService {
@@ -41,7 +42,7 @@ public class UpdateDataService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // Hacer llamada al servidor
+        // With Rx observables we call every endpoint to get the data
         Observable<Bitcoin> observable = API.getClient(this).bitcoinUSDInformation();
         observable
                 .map(this::saveBitcoin)
@@ -77,8 +78,10 @@ public class UpdateDataService extends IntentService {
                                 VefExchangeWidget.class));
                         // Construct the RemoteViews object
                         RemoteViews views = new RemoteViews(UpdateDataService.this.getPackageName(), R.layout.vef_exchange_widget);
+                        // Fix to two decimals
                         DecimalFormat df = new DecimalFormat("#.###");
                         df.setRoundingMode(RoundingMode.CEILING);
+                        // Show the information
                         views.setTextViewText(R.id.dolar_today_text, "$"+vefdtd.toString());
                         views.setTextViewText(R.id.sur_bitcoin_text, "$"+df.format(vefbtc));
 
@@ -88,12 +91,22 @@ public class UpdateDataService extends IntentService {
                 });
     }
 
+    /**
+     * Save SurBitcoin data
+     * @param bitcoinVEF incoming data
+     * @return same input
+     */
     private BitcoinVEF saveSurBitcoin(BitcoinVEF bitcoinVEF) {
         vefbtc = (bitcoinVEF.buy + bitcoinVEF.sell) / 2;
         vefbtc = vefbtc/usdbtc;
         return bitcoinVEF;
     }
 
+    /**
+     * Save USD Bitcoin data
+     * @param bitcoin incoming data
+     * @return same input
+     */
     private Bitcoin saveBitcoin(Bitcoin bitcoin) {
         usdbtc = bitcoin.getLast();
         return bitcoin;

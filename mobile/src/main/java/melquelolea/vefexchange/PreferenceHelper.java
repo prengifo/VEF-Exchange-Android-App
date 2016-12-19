@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 /**
  * Created by patrick on 16/12/16.
+ * Helper class to keep important information in preferences share data
  */
 
 public class PreferenceHelper {
