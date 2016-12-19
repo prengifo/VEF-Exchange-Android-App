@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VEFExchange.iml" filepath="$PROJECT_DIR$/VEFExchange.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VEF-Exchange-Android-App.iml" filepath="$PROJECT_DIR$/VEF-Exchange-Android-App.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />
     </modules>
   </component>

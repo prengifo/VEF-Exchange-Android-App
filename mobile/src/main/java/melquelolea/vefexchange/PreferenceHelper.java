@@ -1,0 +1,33 @@
+package melquelolea.vefexchange;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ * Created by patrick on 16/12/16.
+ */
+
+public class PreferenceHelper {
+    public static String prefName = "Preferences";
+
+    /**
+     * This method logs the user out by deleting his login information then send him to
+     * the start screen.
+     */
+    public static void clearPreferences(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PreferenceHelper.prefName, 0);
+        prefs.edit().clear().apply();
+    }
+
+    /**
+     * This method will save the exchange data for now in preferences
+     */
+    public static void saveData(Context context, Double usdbtc, Double vefbtc, Double vefdtd) {
+        SharedPreferences settings = context.getSharedPreferences(PreferenceHelper.prefName, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putFloat("usdbtc", usdbtc.floatValue());
+        editor.putFloat("vefbtc", vefbtc.floatValue());
+        editor.putFloat("vefdtd", vefdtd.floatValue());
+        editor.apply();
+    }
+}

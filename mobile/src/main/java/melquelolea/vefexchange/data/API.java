@@ -45,7 +45,7 @@ class API {
             // Log
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             // set your desired log level
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
             // OkHttpClient
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
