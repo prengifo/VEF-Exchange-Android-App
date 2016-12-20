@@ -21,12 +21,12 @@ import rx.Observable;
 
 /**
  * Created by Patrick Rengifo on 11/29/16.
- * Definition of the API to get the data from the exchange
+ * Definition of the Api to get the data from the exchange
  */
 
-class API {
+class Api {
 
-    public interface APIInterface {
+    public interface ApiInterface {
 
         @GET("usdbtc")
         Observable<Bitcoin> bitcoinUSDInformation();
@@ -38,9 +38,9 @@ class API {
         Observable<DolarToday> dolarTodayInformation();
     }
 
-    private static APIInterface adapter;
+    private static ApiInterface adapter;
 
-    public static APIInterface getClient(final Context context) {
+    public static ApiInterface getClient(final Context context) {
         if (adapter == null) {
             // Log
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -49,19 +49,16 @@ class API {
 
             // OkHttpClient
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Request original = chain.request();
+            httpClient.addInterceptor(chain -> {
+                Request original = chain.request();
 
-                    // Customize the request
-                    Request request = original.newBuilder()
-                            .header("X-Device", "Android")
-                            .build();
+                // Customize the request
+                Request request = original.newBuilder()
+                        .header("X-Device", "Android")
+                        .build();
 
-                    // Customize or return the response
-                    return chain.proceed(request);
-                }
+                // Customize or return the response
+                return chain.proceed(request);
             });
 
 
@@ -76,7 +73,7 @@ class API {
                     .client(client)
                     .build();
 
-            adapter = restAdapter.create(APIInterface.class);
+            adapter = restAdapter.create(ApiInterface.class);
         }
 
         return adapter;

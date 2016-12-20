@@ -9,7 +9,7 @@ import android.os.Build;
 import melquelolea.vefexchange.data.UpdateDataService;
 
 /**
- * Created by patrick on 19/12/16.
+ * Created by Patrick Rengifo on 19/12/16.
  * Job Service to update the information in widget every fifteen minutes
  */
 

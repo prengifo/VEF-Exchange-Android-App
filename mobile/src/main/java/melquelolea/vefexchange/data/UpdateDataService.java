@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.renderscript.Double2;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -32,9 +31,9 @@ public class UpdateDataService extends IntentService {
 
     private static final String TAG = UpdateDataService.class.getSimpleName();
 
-    private Double usdbtc = 0.0;
-    private Double vefbtc = 0.0;
-    private Double vefdtd = 0.0;
+    private Double mUsdBtc = 0.0;
+    private Double mVefBtc = 0.0;
+    private Double mVefDtd = 0.0;
 
     public UpdateDataService() {
         super(TAG);
@@ -43,12 +42,12 @@ public class UpdateDataService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         // With Rx observables we call every endpoint to get the data
-        Observable<Bitcoin> observable = API.getClient(this).bitcoinUSDInformation();
+        Observable<Bitcoin> observable = Api.getClient(this).bitcoinUSDInformation();
         observable
                 .map(this::saveBitcoin)
-                .flatMap(bitcoin -> API.getClient(this).bitcoinVEFInformation())
+                .flatMap(bitcoin -> Api.getClient(this).bitcoinVEFInformation())
                 .map(this::saveSurBitcoin)
-                .flatMap(bitcoin -> API.getClient(this).dolarTodayInformation())
+                .flatMap(bitcoin -> Api.getClient(this).dolarTodayInformation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<DolarToday>() {
@@ -71,8 +70,8 @@ public class UpdateDataService extends IntentService {
                     @Override
                     public void onNext(DolarToday event) {
                         // handle response
-                        vefdtd = event.usd.dolartoday;
-                        PreferenceHelper.saveData(UpdateDataService.this, usdbtc, vefbtc, vefdtd);
+                        mVefDtd = event.usd.dolartoday;
+                        PreferenceHelper.saveData(UpdateDataService.this, mUsdBtc, mVefBtc, mVefDtd);
                         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(UpdateDataService.this);
                         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(UpdateDataService.this,
                                 VefExchangeWidget.class));
@@ -82,8 +81,8 @@ public class UpdateDataService extends IntentService {
                         DecimalFormat df = new DecimalFormat("#.###");
                         df.setRoundingMode(RoundingMode.CEILING);
                         // Show the information
-                        views.setTextViewText(R.id.dolar_today_text, "$"+vefdtd.toString());
-                        views.setTextViewText(R.id.sur_bitcoin_text, "$"+df.format(vefbtc));
+                        views.setTextViewText(R.id.dolar_today_text, "$"+ mVefDtd.toString());
+                        views.setTextViewText(R.id.sur_bitcoin_text, "$"+df.format(mVefBtc));
 
                         // Instruct the widget manager to update the widget
                         appWidgetManager.updateAppWidget(appWidgetIds, views);
@@ -97,8 +96,8 @@ public class UpdateDataService extends IntentService {
      * @return same input
      */
     private BitcoinVEF saveSurBitcoin(BitcoinVEF bitcoinVEF) {
-        vefbtc = (bitcoinVEF.buy + bitcoinVEF.sell) / 2;
-        vefbtc = vefbtc/usdbtc;
+        mVefBtc = (bitcoinVEF.buy + bitcoinVEF.sell) / 2;
+        mVefBtc = mVefBtc / mUsdBtc;
         return bitcoinVEF;
     }
 
@@ -108,7 +107,7 @@ public class UpdateDataService extends IntentService {
      * @return same input
      */
     private Bitcoin saveBitcoin(Bitcoin bitcoin) {
-        usdbtc = bitcoin.getLast();
+        mUsdBtc = bitcoin.getLast();
         return bitcoin;
     }
 }
