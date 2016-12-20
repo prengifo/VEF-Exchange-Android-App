@@ -3,4 +3,6 @@
     <string name="endpoint">http://vefexange.appjango.com/api/</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="dolartoday">DolarToday</string>
+    <string name="surbitcoin">SurBitcoin</string>
 </resources>
