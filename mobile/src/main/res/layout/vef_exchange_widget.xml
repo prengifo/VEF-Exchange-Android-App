@@ -3,21 +3,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#FFFFFF">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dolar_today_caret"
+            android:text="{fa-caret-left}"
+            android:textColor="@color/black"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/dolar_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#FFFFFF"
             android:text="@string/dolartoday"
             android:contentDescription="@string/dolartoday"
-            android:textColor="#000000"
+            android:textColor="@color/font_primary"
             android:textSize="20sp"
             android:textStyle="italic" />
 
@@ -26,25 +34,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#FFFFFF"
             android:contentDescription="@string/dolartoday"
-            android:textColor="#000000"
+            android:textColor="@color/font_primary"
             android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sur_bitcoin_caret"
+            android:text="{fa-caret-left}"
+            android:textColor="@color/black"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/sur_bitcoin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#FFFFFF"
             android:text="@string/surbitcoin"
             android:contentDescription="@string/surbitcoin"
-            android:textColor="#000000"
+            android:textColor="@color/font_primary"
             android:textSize="20sp"
             android:textStyle="italic" />
 
@@ -53,9 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="#FFFFFF"
             android:contentDescription="@string/surbitcoin"
-            android:textColor="#000000"
+            android:textColor="@color/font_primary"
             android:textSize="20sp" />
     </LinearLayout>
 
