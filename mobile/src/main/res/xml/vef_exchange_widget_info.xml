@@ -2,7 +2,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/vef_exchange_widget"
     android:initialLayout="@layout/vef_exchange_widget"
-    android:minHeight="40dp"
+    android:minHeight="110dp"
     android:minWidth="250dp"
     android:previewImage="@drawable/example_appwidget_preview"
     android:resizeMode="horizontal|vertical"

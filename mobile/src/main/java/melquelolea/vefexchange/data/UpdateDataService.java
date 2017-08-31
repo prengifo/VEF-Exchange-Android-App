@@ -81,8 +81,9 @@ public class UpdateDataService extends IntentService {
                         DecimalFormat df = new DecimalFormat("#.###");
                         df.setRoundingMode(RoundingMode.CEILING);
                         // Show the information
-                        views.setTextViewText(R.id.dolar_today_text, "$"+ mVefDtd.toString());
-                        views.setTextViewText(R.id.localbitcoin_text, "$"+df.format(mVefBtc));
+                        views.setTextViewText(R.id.usd_text, "$" + mUsdBtc.toString());
+                        views.setTextViewText(R.id.dolar_today_text, "VEF" + mVefDtd.toString());
+                        views.setTextViewText(R.id.localbitcoin_text, "VEF" + df.format(mVefBtc));
 
                         // Instruct the widget manager to update the widget
                         appWidgetManager.updateAppWidget(appWidgetIds, views);

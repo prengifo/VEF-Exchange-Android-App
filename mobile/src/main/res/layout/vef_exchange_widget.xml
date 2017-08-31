@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/white">
+    android:background="@drawable/widget_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,6 +12,7 @@
 
         <TextView
             android:id="@+id/dolar_today"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -23,10 +24,12 @@
 
         <TextView
             android:id="@+id/dolar_today_text"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:contentDescription="@string/dolartoday"
+            android:gravity="end"
             android:textColor="@color/font_primary"
             android:textSize="20sp" />
     </LinearLayout>
@@ -38,6 +41,7 @@
 
         <TextView
             android:id="@+id/localbitcoin"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -49,10 +53,41 @@
 
         <TextView
             android:id="@+id/localbitcoin_text"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:contentDescription="@string/localbitcoins"
+            android:gravity="end"
+            android:textColor="@color/font_primary"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/usd"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/usd"
+            android:contentDescription="@string/usd"
+            android:textColor="@color/font_primary"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/usd_text"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/usd"
+            android:gravity="end"
             android:textColor="@color/font_primary"
             android:textSize="20sp" />
     </LinearLayout>
