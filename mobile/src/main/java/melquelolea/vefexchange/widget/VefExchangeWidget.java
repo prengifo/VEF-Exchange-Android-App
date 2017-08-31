@@ -1,4 +1,4 @@
-package melquelolea.vefexchange;
+package melquelolea.vefexchange.widget;
 
 import android.app.AlarmManager;
 import android.app.job.JobInfo;
@@ -9,7 +9,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 import melquelolea.vefexchange.data.UpdateDataService;
 

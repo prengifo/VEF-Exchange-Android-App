@@ -25,10 +25,10 @@
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="false"/>
         <service
-            android:name=".ScheduledJobService"
+            android:name=".services.ScheduledJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
-        <receiver android:name=".VefExchangeWidget">
+        <receiver android:name=".widget.VefExchangeWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

@@ -1,4 +1,4 @@
-package melquelolea.vefexchange;
+package melquelolea.vefexchange.services;
 
 import android.annotation.TargetApi;
 import android.app.job.JobParameters;

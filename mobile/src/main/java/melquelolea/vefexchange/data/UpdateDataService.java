@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
 
 import melquelolea.vefexchange.PreferenceHelper;
 import melquelolea.vefexchange.R;
-import melquelolea.vefexchange.VefExchangeWidget;
+import melquelolea.vefexchange.widget.VefExchangeWidget;
 import melquelolea.vefexchange.models.Bitcoin;
 import melquelolea.vefexchange.models.BitcoinVEF;
 import melquelolea.vefexchange.models.DolarToday;
