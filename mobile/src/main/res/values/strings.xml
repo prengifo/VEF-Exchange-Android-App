@@ -6,4 +6,5 @@
     <string name="add_widget">Add widget</string>
     <string name="dolartoday">DolarToday</string>
     <string name="localbitcoins">LocalBitcoins</string>
+    <string name="coinbase_endpoint">https://coinbase.com/api/v1/</string>
 </resources>

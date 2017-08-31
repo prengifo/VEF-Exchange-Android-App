@@ -7,15 +7,15 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.google.gson.JsonObject;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 import melquelolea.vefexchange.PreferenceHelper;
 import melquelolea.vefexchange.R;
-import melquelolea.vefexchange.widget.VefExchangeWidget;
-import melquelolea.vefexchange.models.Bitcoin;
-import melquelolea.vefexchange.models.BitcoinVEF;
 import melquelolea.vefexchange.models.DolarToday;
+import melquelolea.vefexchange.widget.VefExchangeWidget;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
@@ -42,11 +42,11 @@ public class UpdateDataService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         // With Rx observables we call every endpoint to get the data
-        Observable<Bitcoin> observable = VefExchangeApi.getClient(this).bitcoinUSDInformation();
+        Observable<JsonObject> observable = LocalBitcoinsApi.getClient(this).bitcoinVEFInformation();
         observable
-                .map(this::saveBitcoin)
-                .flatMap(bitcoin -> VefExchangeApi.getClient(this).bitcoinVEFInformation())
-                .map(this::saveSurBitcoin)
+                .map(this::saveLocalBitcoin)
+                .flatMap(price -> CoinBaseApi.getClient(this).bitcoinUSD())
+                .map(this::saveUsdBitcoin)
                 .flatMap(bitcoin -> VefExchangeApi.getClient(this).dolarTodayInformation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -82,7 +82,7 @@ public class UpdateDataService extends IntentService {
                         df.setRoundingMode(RoundingMode.CEILING);
                         // Show the information
                         views.setTextViewText(R.id.dolar_today_text, "$"+ mVefDtd.toString());
-                        views.setTextViewText(R.id.sur_bitcoin_text, "$"+df.format(mVefBtc));
+                        views.setTextViewText(R.id.localbitcoin_text, "$"+df.format(mVefBtc));
 
                         // Instruct the widget manager to update the widget
                         appWidgetManager.updateAppWidget(appWidgetIds, views);
@@ -91,23 +91,23 @@ public class UpdateDataService extends IntentService {
     }
 
     /**
-     * Save SurBitcoin data
-     * @param bitcoinVEF incoming data
+     * Save USD - Bitcoin data
+     * @param response incoming data
      * @return same input
      */
-    private BitcoinVEF saveSurBitcoin(BitcoinVEF bitcoinVEF) {
-        mVefBtc = (bitcoinVEF.buy + bitcoinVEF.sell) / 2;
+    private double saveUsdBitcoin(JsonObject response) {
+        mUsdBtc = response.get("amount").getAsDouble();
         mVefBtc = mVefBtc / mUsdBtc;
-        return bitcoinVEF;
+        return mVefBtc;
     }
 
     /**
-     * Save USD Bitcoin data
-     * @param bitcoin incoming data
+     * Save LocalBitcoin data
+     * @param response incoming data
      * @return same input
      */
-    private Bitcoin saveBitcoin(Bitcoin bitcoin) {
-        mUsdBtc = bitcoin.getLast();
-        return bitcoin;
+    private double saveLocalBitcoin(JsonObject response) {
+        mVefBtc = response.get("VEF").getAsJsonObject().get("avg_24h").getAsDouble();
+        return mVefBtc;
     }
 }

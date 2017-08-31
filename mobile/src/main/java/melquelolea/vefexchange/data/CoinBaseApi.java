@@ -19,12 +19,12 @@ import rx.Observable;
  * Definition of the Api to get the data from the exchange
  */
 
-class LocalBitcoinsApi {
+class CoinBaseApi {
 
     interface ApiInterface {
 
-        @GET("bitcoinaverage/ticker-all-currencies/")
-        Observable<JsonObject> bitcoinVEFInformation();
+        @GET("prices/spot_rate")
+        Observable<JsonObject> bitcoinUSD();
     }
 
     private static ApiInterface adapter;
@@ -58,7 +58,7 @@ class LocalBitcoinsApi {
             Retrofit restAdapter = new Retrofit.Builder()
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(context.getString(R.string.localbitcoins_endpoint))
+                    .baseUrl(context.getString(R.string.coinbase_endpoint))
                     .client(client)
                     .build();
 

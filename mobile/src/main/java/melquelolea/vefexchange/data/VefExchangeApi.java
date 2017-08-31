@@ -3,8 +3,6 @@ package melquelolea.vefexchange.data;
 import android.content.Context;
 
 import melquelolea.vefexchange.R;
-import melquelolea.vefexchange.models.Bitcoin;
-import melquelolea.vefexchange.models.BitcoinVEF;
 import melquelolea.vefexchange.models.DolarToday;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,19 +22,13 @@ class VefExchangeApi {
 
     interface ApiInterface {
 
-        @GET("usdbtc")
-        Observable<Bitcoin> bitcoinUSDInformation();
-
-        @GET("vefbtc")
-        Observable<BitcoinVEF> bitcoinVEFInformation();
-
         @GET("vefdtd")
         Observable<DolarToday> dolarTodayInformation();
     }
 
     private static ApiInterface adapter;
 
-    public static ApiInterface getClient(final Context context) {
+    static ApiInterface getClient(final Context context) {
         if (adapter == null) {
             // Log
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

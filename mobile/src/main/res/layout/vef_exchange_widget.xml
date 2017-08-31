@@ -10,14 +10,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
-        <com.joanzapata.iconify.widget.IconTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dolar_today_caret"
-            android:text="{fa-caret-left}"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
-
         <TextView
             android:id="@+id/dolar_today"
             android:layout_width="wrap_content"
@@ -44,16 +36,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
-        <com.joanzapata.iconify.widget.IconTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sur_bitcoin_caret"
-            android:text="{fa-caret-left}"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
-
         <TextView
-            android:id="@+id/sur_bitcoin"
+            android:id="@+id/localbitcoin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -64,7 +48,7 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/sur_bitcoin_text"
+            android:id="@+id/localbitcoin_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
