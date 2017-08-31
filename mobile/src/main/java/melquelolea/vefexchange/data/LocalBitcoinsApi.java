@@ -19,7 +19,7 @@ import rx.Observable;
  * Definition of the Api to get the data from the exchange
  */
 
-class LocaBitcoinsApi {
+class LocalBitcoinsApi {
 
     interface ApiInterface {
 
