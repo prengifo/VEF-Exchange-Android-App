@@ -57,8 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="@string/surbitcoin"
-            android:contentDescription="@string/surbitcoin"
+            android:text="@string/localbitcoins"
+            android:contentDescription="@string/localbitcoins"
             android:textColor="@color/font_primary"
             android:textSize="20sp"
             android:textStyle="italic" />
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:contentDescription="@string/surbitcoin"
+            android:contentDescription="@string/localbitcoins"
             android:textColor="@color/font_primary"
             android:textSize="20sp" />
     </LinearLayout>

@@ -2,16 +2,12 @@ package melquelolea.vefexchange.data;
 
 import android.content.Context;
 
-import java.io.IOException;
-
 import melquelolea.vefexchange.R;
 import melquelolea.vefexchange.models.Bitcoin;
 import melquelolea.vefexchange.models.BitcoinVEF;
 import melquelolea.vefexchange.models.DolarToday;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -24,9 +20,9 @@ import rx.Observable;
  * Definition of the Api to get the data from the exchange
  */
 
-class Api {
+class VefExchangeApi {
 
-    public interface ApiInterface {
+    interface ApiInterface {
 
         @GET("usdbtc")
         Observable<Bitcoin> bitcoinUSDInformation();
@@ -69,7 +65,7 @@ class Api {
             Retrofit restAdapter = new Retrofit.Builder()
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(context.getString(R.string.endpoint))
+                    .baseUrl(context.getString(R.string.vefexchange_endpoint))
                     .client(client)
                     .build();
 
