@@ -42,12 +42,12 @@ public class UpdateDataService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         // With Rx observables we call every endpoint to get the data
-        Observable<JsonObject> observable = LocalBitcoinsApi.getClient(this).bitcoinVEFInformation();
+        Observable<JsonObject> observable = LocalBitcoinsApi.INSTANCE.getClient(this).bitcoinVEFInformation();
         observable
                 .map(this::saveLocalBitcoin)
-                .flatMap(price -> CoinBaseApi.getClient(this).bitcoinUSD())
+                .flatMap(price -> CoinBaseApi.INSTANCE.getClient(this).bitcoinUSD())
                 .map(this::saveUsdBitcoin)
-                .flatMap(bitcoin -> VefExchangeApi.getClient(this).dolarTodayInformation())
+                .flatMap(bitcoin -> VefExchangeApi.INSTANCE.getClient(this).dolarTodayInformation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<DolarToday>() {
