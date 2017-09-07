@@ -70,7 +70,7 @@ public class UpdateDataService extends IntentService {
                     @Override
                     public void onNext(DolarToday event) {
                         // handle response
-                        mVefDtd = event.usd.dolartoday;
+                        mVefDtd = event.getUsd().getDolartoday();
                         PreferenceHelper.INSTANCE.saveData(UpdateDataService.this, mUsdBtc, mVefBtc, mVefDtd);
                         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(UpdateDataService.this);
                         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(UpdateDataService.this,
