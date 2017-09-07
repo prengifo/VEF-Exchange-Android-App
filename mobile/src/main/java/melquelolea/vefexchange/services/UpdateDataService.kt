@@ -1,4 +1,4 @@
-package melquelolea.vefexchange.data
+package melquelolea.vefexchange.services
 
 import android.app.IntentService
 import android.appwidget.AppWidgetManager
@@ -9,6 +9,9 @@ import android.widget.RemoteViews
 import com.google.gson.JsonObject
 import melquelolea.vefexchange.PreferenceHelper
 import melquelolea.vefexchange.R
+import melquelolea.vefexchange.data.CoinBaseApi
+import melquelolea.vefexchange.data.LocalBitcoinsApi
+import melquelolea.vefexchange.data.VefExchangeApi
 import melquelolea.vefexchange.models.DolarToday
 import melquelolea.vefexchange.widget.VefExchangeWidget
 import rx.Subscriber

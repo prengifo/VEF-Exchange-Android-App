@@ -10,7 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 
-import melquelolea.vefexchange.data.UpdateDataService
+import melquelolea.vefexchange.services.UpdateDataService
 
 /**
  * Implementation of App Widget functionality.
