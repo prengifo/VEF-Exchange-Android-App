@@ -1,15 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:padding="@dimen/widget_margin"
     android:background="@drawable/widget_background">
+
+    <TextView
+        android:id="@+id/refresh"
+        android:text="@string/refresh"
+        android:textSize="14sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:drawableStart="@drawable/ic_refresh_black_24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -21,7 +34,7 @@
             android:text="@string/dolartoday"
             android:contentDescription="@string/dolartoday"
             android:textColor="@color/font_primary"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="italic" />
 
         <TextView
@@ -32,14 +45,12 @@
             android:contentDescription="@string/dolartoday"
             android:gravity="end"
             android:textColor="@color/font_primary"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -50,7 +61,7 @@
             android:text="@string/localbitcoins"
             android:contentDescription="@string/localbitcoins"
             android:textColor="@color/font_primary"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="italic" />
 
         <TextView
@@ -61,14 +72,12 @@
             android:contentDescription="@string/localbitcoins"
             android:gravity="end"
             android:textColor="@color/font_primary"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -79,7 +88,7 @@
             android:text="@string/usd"
             android:contentDescription="@string/usd"
             android:textColor="@color/font_primary"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="italic" />
 
         <TextView
@@ -90,7 +99,7 @@
             android:contentDescription="@string/usd"
             android:gravity="end"
             android:textColor="@color/font_primary"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 

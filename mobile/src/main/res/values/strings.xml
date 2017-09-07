@@ -8,4 +8,5 @@
     <string name="localbitcoins">LocalBitcoins</string>
     <string name="coinbase_endpoint">https://coinbase.com/api/v1/</string>
     <string name="usd">USD</string>
+    <string name="refresh">Refresh</string>
 </resources>
