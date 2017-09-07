@@ -71,7 +71,7 @@ public class UpdateDataService extends IntentService {
                     public void onNext(DolarToday event) {
                         // handle response
                         mVefDtd = event.usd.dolartoday;
-                        PreferenceHelper.saveData(UpdateDataService.this, mUsdBtc, mVefBtc, mVefDtd);
+                        PreferenceHelper.INSTANCE.saveData(UpdateDataService.this, mUsdBtc, mVefBtc, mVefDtd);
                         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(UpdateDataService.this);
                         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(UpdateDataService.this,
                                 VefExchangeWidget.class));
