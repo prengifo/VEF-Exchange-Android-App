@@ -1,6 +1,7 @@
 package melquelolea.vefexchange.services
 
 import android.app.IntentService
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
@@ -32,6 +33,18 @@ class UpdateDataService : IntentService(TAG) {
     private var mVefDtd: Double? = 0.0
 
     override fun onHandleIntent(intent: Intent?) {
+        // Construct the RemoteViews object
+        val views = RemoteViews(this@UpdateDataService.packageName, R.layout.vef_exchange_widget)
+        val pendingIntent = PendingIntent.getService(this@UpdateDataService, 0,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT)
+        views.setOnClickPendingIntent(R.id.refresh, pendingIntent)
+
+        val appWidgetManager = AppWidgetManager.getInstance(this@UpdateDataService)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this@UpdateDataService,
+                VefExchangeWidget::class.java))
+        appWidgetManager.updateAppWidget(appWidgetIds, views)
+
         // With Rx observables we call every endpoint to get the data
         val observable = LocalBitcoinsApi.getClient(this).bitcoinVEFInformation()
         observable
@@ -55,11 +68,7 @@ class UpdateDataService : IntentService(TAG) {
                         // handle response
                         mVefDtd = event.usd!!.dolartoday
                         PreferenceHelper.saveData(this@UpdateDataService, mUsdBtc, mVefBtc, mVefDtd)
-                        val appWidgetManager = AppWidgetManager.getInstance(this@UpdateDataService)
-                        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this@UpdateDataService,
-                                VefExchangeWidget::class.java))
-                        // Construct the RemoteViews object
-                        val views = RemoteViews(this@UpdateDataService.packageName, R.layout.vef_exchange_widget)
+
                         // Fix to two decimals
                         val df = DecimalFormat("#.###")
                         df.roundingMode = RoundingMode.CEILING
