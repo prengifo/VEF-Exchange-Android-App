@@ -21,14 +21,14 @@
 
             <TextView
                 android:id="@+id/dolar_today"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:text="@string/dolartoday"
+                android:layout_weight="1"
                 android:contentDescription="@string/dolartoday"
+                android:fontFamily="@font/titillium_web"
+                android:text="@string/dolartoday"
                 android:textColor="@color/font_primary"
-                android:textSize="14sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/dolar_today_text"
@@ -37,8 +37,9 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/dolartoday"
                 android:gravity="end"
+                android:fontFamily="@font/titillium_web"
                 android:textColor="@color/font_primary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,8 +54,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/localbitcoins"
                 android:contentDescription="@string/localbitcoins"
+                android:fontFamily="@font/titillium_web"
                 android:textColor="@color/font_primary"
-                android:textSize="14sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/localbitcoin_text"
@@ -63,8 +65,9 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/localbitcoins"
                 android:gravity="end"
+                android:fontFamily="@font/titillium_web"
                 android:textColor="@color/font_primary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,8 +82,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/usd"
                 android:contentDescription="@string/usd"
+                android:fontFamily="@font/titillium_web"
                 android:textColor="@color/font_primary"
-                android:textSize="14sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/usd_text"
@@ -89,8 +93,9 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/usd"
                 android:gravity="end"
+                android:fontFamily="@font/titillium_web"
                 android:textColor="@color/font_primary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>

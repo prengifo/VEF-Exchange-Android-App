@@ -36,6 +36,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/vef_exchange_widget_info" />
         </receiver>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>
