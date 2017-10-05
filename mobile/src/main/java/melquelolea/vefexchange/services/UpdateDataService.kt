@@ -31,17 +31,26 @@ class UpdateDataService : IntentService(TAG) {
     private var mUsdBtc: Double? = 0.0
     private var mVefBtc: Double? = 0.0
     private var mVefDtd: Double? = 0.0
+    private lateinit var appWidgetManager: AppWidgetManager
+    private lateinit var views: RemoteViews
+    private lateinit var appWidgetIds: IntArray
+    private val decimalFormat: DecimalFormat
+        get() {
+            val df = DecimalFormat("#.###")
+            df.roundingMode = RoundingMode.CEILING
+            return df
+        }
 
     override fun onHandleIntent(intent: Intent?) {
         // Construct the RemoteViews object
-        val views = RemoteViews(this@UpdateDataService.packageName, R.layout.vef_exchange_widget)
+        views = RemoteViews(this@UpdateDataService.packageName, R.layout.vef_exchange_widget)
         val pendingIntent = PendingIntent.getService(this@UpdateDataService, 0,
                 intent,
                 PendingIntent.FLAG_CANCEL_CURRENT)
         views.setOnClickPendingIntent(R.id.refresh, pendingIntent)
 
-        val appWidgetManager = AppWidgetManager.getInstance(this@UpdateDataService)
-        val appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this@UpdateDataService,
+        appWidgetManager = AppWidgetManager.getInstance(this@UpdateDataService)
+        appWidgetIds = appWidgetManager.getAppWidgetIds(ComponentName(this@UpdateDataService,
                 VefExchangeWidget::class.java))
         appWidgetManager.updateAppWidget(appWidgetIds, views)
 
@@ -66,16 +75,15 @@ class UpdateDataService : IntentService(TAG) {
 
                     override fun onNext(event: DolarToday) {
                         // handle response
-                        mVefDtd = event.usd!!.dolartoday
+                        mVefDtd = event.usd?.dolartoday
                         PreferenceHelper.saveData(this@UpdateDataService, mUsdBtc, mVefBtc, mVefDtd)
 
                         // Fix to two decimals
-                        val df = DecimalFormat("#.###")
-                        df.roundingMode = RoundingMode.CEILING
+                        decimalFormat.roundingMode = RoundingMode.CEILING
                         // Show the information
-                        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc!!.toString())
-                        views.setTextViewText(R.id.dolar_today_text, "1$ - Bs" + mVefDtd!!.toString())
-                        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + df.format(mVefBtc))
+                        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc?.toString())
+                        views.setTextViewText(R.id.dolar_today_text, "1$ - Bs" + mVefDtd?.toString())
+                        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(mVefBtc))
 
                         // Instruct the widget manager to update the widget
                         appWidgetManager.updateAppWidget(appWidgetIds, views)
@@ -91,6 +99,9 @@ class UpdateDataService : IntentService(TAG) {
     private fun saveUsdBitcoin(response: JsonObject): Double {
         mUsdBtc = response.get("amount").asDouble
         mVefBtc = mVefBtc!! / mUsdBtc!!
+        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc?.toString())
+        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(mVefBtc!!))
+        appWidgetManager.updateAppWidget(appWidgetIds, views)
         return mVefBtc!!
     }
 
