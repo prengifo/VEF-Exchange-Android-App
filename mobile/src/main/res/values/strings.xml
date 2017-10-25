@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">VEF Exchange</string>
     <string name="localbitcoins_endpoint">https://localbitcoins.com/</string>
-    <string name="vefexchange_endpoint">http://vefexange.appjango.com/api/</string>
+    <string name="dolar_today_endpoint">https://dxj1e0bbbefdtsyig.woldrssl.net/custom/</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="dolartoday">DolarToday</string>

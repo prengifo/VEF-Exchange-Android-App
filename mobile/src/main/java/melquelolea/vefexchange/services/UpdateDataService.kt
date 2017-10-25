@@ -7,14 +7,16 @@ import android.content.ComponentName
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import melquelolea.vefexchange.PreferenceHelper
 import melquelolea.vefexchange.R
 import melquelolea.vefexchange.data.CoinBaseApi
+import melquelolea.vefexchange.data.DolarTodayApi
 import melquelolea.vefexchange.data.LocalBitcoinsApi
-import melquelolea.vefexchange.data.VefExchangeApi
 import melquelolea.vefexchange.models.DolarToday
 import melquelolea.vefexchange.widget.VefExchangeWidget
+import okhttp3.ResponseBody
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -28,9 +30,9 @@ import java.text.DecimalFormat
 
 class UpdateDataService : IntentService(TAG) {
 
-    private var mUsdBtc: Double? = 0.0
-    private var mVefBtc: Double? = 0.0
-    private var mVefDtd: Double? = 0.0
+    private var mUsdBtc: Double = 0.0
+    private var mVefBtc: Double = 0.0
+    private var mVefDtd: Double = 0.0
     private lateinit var appWidgetManager: AppWidgetManager
     private lateinit var views: RemoteViews
     private lateinit var appWidgetIds: IntArray
@@ -60,10 +62,10 @@ class UpdateDataService : IntentService(TAG) {
                 .map<Double>({ this.saveLocalBitcoin(it) })
                 .flatMap { CoinBaseApi.getClient(this).bitcoinUSD() }
                 .map<Double>({ this.saveUsdBitcoin(it) })
-                .flatMap { VefExchangeApi.getClient(this).dolarTodayInformation() }
+                .flatMap { DolarTodayApi.getClient(this).dolarTodayInformation() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(object : Subscriber<DolarToday>() {
+                .subscribe(object : Subscriber<ResponseBody>() {
                     override fun onCompleted() {
                         // handle completed
                     }
@@ -73,16 +75,21 @@ class UpdateDataService : IntentService(TAG) {
                         Log.e(TAG, e.message)
                     }
 
-                    override fun onNext(event: DolarToday) {
+                    override fun onNext(event: ResponseBody) {
                         // handle response
-                        mVefDtd = event.usd?.dolartoday
+                        val response = event.string()
+                        val json = response.split("= ")
+                        val dolarToday: DolarToday =
+                                Gson().fromJson<DolarToday>(json[1],
+                                        DolarToday::class.java)
+                        mVefDtd = dolarToday.usd.dolartoday
                         PreferenceHelper.saveData(this@UpdateDataService, mUsdBtc, mVefBtc, mVefDtd)
 
                         // Fix to two decimals
                         decimalFormat.roundingMode = RoundingMode.CEILING
                         // Show the information
-                        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc?.toString())
-                        views.setTextViewText(R.id.dolar_today_text, "1$ - Bs" + mVefDtd?.toString())
+                        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc.toString())
+                        views.setTextViewText(R.id.dolar_today_text, "1$ - Bs" + mVefDtd.toString())
                         views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(mVefBtc))
 
                         // Instruct the widget manager to update the widget
@@ -98,11 +105,11 @@ class UpdateDataService : IntentService(TAG) {
      */
     private fun saveUsdBitcoin(response: JsonObject): Double {
         mUsdBtc = response.get("amount").asDouble
-        mVefBtc = mVefBtc!! / mUsdBtc!!
-        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc?.toString())
-        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(mVefBtc!!))
+        mVefBtc /= mUsdBtc
+        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc.toString())
+        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(mVefBtc))
         appWidgetManager.updateAppWidget(appWidgetIds, views)
-        return mVefBtc!!
+        return mVefBtc
     }
 
     /**
@@ -112,7 +119,7 @@ class UpdateDataService : IntentService(TAG) {
      */
     private fun saveLocalBitcoin(response: JsonObject): Double {
         mVefBtc = response.get("VEF").asJsonObject.get("avg_24h").asDouble
-        return mVefBtc!!
+        return mVefBtc
     }
 
     companion object {

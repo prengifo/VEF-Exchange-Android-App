@@ -2,8 +2,8 @@ package melquelolea.vefexchange.data
 
 import android.content.Context
 import melquelolea.vefexchange.R
-import melquelolea.vefexchange.models.DolarToday
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -16,12 +16,12 @@ import rx.Observable
  * Definition of the Api to get the data from the exchange
  */
 
-internal object VefExchangeApi {
+internal object DolarTodayApi {
 
     internal interface ApiInterface {
 
-        @GET("vefdtd")
-        fun dolarTodayInformation(): Observable<DolarToday>
+        @GET("rate.js")
+        fun dolarTodayInformation(): Observable<ResponseBody>
     }
 
     private var adapter: ApiInterface? = null
@@ -55,7 +55,7 @@ internal object VefExchangeApi {
             val restAdapter = Retrofit.Builder()
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(context.getString(R.string.vefexchange_endpoint))
+                    .baseUrl(context.getString(R.string.dolar_today_endpoint))
                     .client(client)
                     .build()
 

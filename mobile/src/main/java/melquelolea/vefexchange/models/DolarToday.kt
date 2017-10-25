@@ -7,6 +7,6 @@ class DolarToday {
 
     @SerializedName("USD")
     @Expose
-    var usd: USD? = USD()
+    var usd: USD = USD()
 
 }
