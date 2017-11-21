@@ -1,10 +1,15 @@
 package melquelolea.vefexchange.services
 
 import android.app.IntentService
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.support.v4.app.NotificationCompat
 import android.util.Log
 import android.widget.RemoteViews
 import com.google.gson.Gson
@@ -22,6 +27,8 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.math.RoundingMode
 import java.text.DecimalFormat
+
+
 
 /**
  * Created by Patrick Rengifo on 16/12/16.
@@ -43,7 +50,25 @@ class UpdateDataService : IntentService(TAG) {
             return df
         }
 
+    override fun onCreate() {
+        super.onCreate()
+        if (Build.VERSION.SDK_INT >= 26) {
+            val channelId = "com.prengifo.vefexhange"
+            val channel = NotificationChannel(channelId,
+                    "Update service",
+                    NotificationManager.IMPORTANCE_LOW)
+
+            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
+
+            val notification = NotificationCompat.Builder(this, channelId)
+                    .setContentTitle("VEF Exchange Update Service").build()
+
+            startForeground(1, notification)
+        }
+    }
+
     override fun onHandleIntent(intent: Intent?) {
+        startForeground(0, null)
         // Construct the RemoteViews object
         views = RemoteViews(this@UpdateDataService.packageName, R.layout.vef_exchange_widget)
         val pendingIntent = PendingIntent.getService(this@UpdateDataService, 0,

@@ -8,8 +8,8 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.util.Log
-
 import melquelolea.vefexchange.services.UpdateDataService
 
 /**
@@ -19,7 +19,7 @@ class VefExchangeWidget : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         //Start the background service to update the widgets
-        context.startService(Intent(context, UpdateDataService::class.java))
+        ContextCompat.startForegroundService(context, Intent(context, UpdateDataService::class.java))
         val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
 
         val interval = AlarmManager.INTERVAL_FIFTEEN_MINUTES
