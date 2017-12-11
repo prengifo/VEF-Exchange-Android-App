@@ -76,18 +76,18 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/usd"
+                android:id="@+id/airtm"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/usd"
-                android:contentDescription="@string/usd"
+                android:text="@string/airtm"
+                android:contentDescription="@string/airtm"
                 android:fontFamily="@font/titillium_web"
                 android:textColor="@color/font_primary"
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/usd_text"
+                android:id="@+id/airtm_text"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,18 +104,18 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/airtm"
+                android:id="@+id/usd"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/airtm"
-                android:contentDescription="@string/airtm"
+                android:text="@string/usd"
+                android:contentDescription="@string/usd"
                 android:fontFamily="@font/titillium_web"
                 android:textColor="@color/font_primary"
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/airtm_text"
+                android:id="@+id/usd_text"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
