@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">VEF Exchange</string>
+    <string name="airtm_endpoint">https://www.airtm.io/cloudatm/api/</string>
     <string name="localbitcoins_endpoint">https://localbitcoins.com/</string>
     <string name="dolar_today_endpoint">https://dxj1e0bbbefdtsyig.woldrssl.net/custom/</string>
     <string name="appwidget_text">EXAMPLE</string>
@@ -9,4 +10,5 @@
     <string name="coinbase_endpoint">https://coinbase.com/api/v1/</string>
     <string name="usd">USD</string>
     <string name="refresh">Refresh</string>
+    <string name="airtm">AirTm</string>
 </resources>

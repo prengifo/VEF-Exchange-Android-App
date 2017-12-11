@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import melquelolea.vefexchange.PreferenceHelper
 import melquelolea.vefexchange.R
+import melquelolea.vefexchange.data.AirTmApi
 import melquelolea.vefexchange.data.CoinBaseApi
 import melquelolea.vefexchange.data.DolarTodayApi
 import melquelolea.vefexchange.data.LocalBitcoinsApi
@@ -37,9 +38,10 @@ import java.text.DecimalFormat
 
 class UpdateDataService : IntentService(TAG) {
 
-    private var mUsdBtc: Double = 0.0
-    private var mVefBtc: Double = 0.0
-    private var mVefDtd: Double = 0.0
+    private var usdBtc: Double = 0.0
+    private var vefBtc: Double = 0.0
+    private var vefDtd: Double = 0.0
+    private var vefAirtm: Double = 0.0
     private lateinit var appWidgetManager: AppWidgetManager
     private lateinit var views: RemoteViews
     private lateinit var appWidgetIds: IntArray
@@ -87,6 +89,8 @@ class UpdateDataService : IntentService(TAG) {
                 .map<Double>({ this.saveLocalBitcoin(it) })
                 .flatMap { CoinBaseApi.getClient(this).bitcoinUSD() }
                 .map<Double>({ this.saveUsdBitcoin(it) })
+                .flatMap { AirTmApi.getClient(this).airtmInformation() }
+                .map { this.saveAirtmInformation(it) }
                 .flatMap { DolarTodayApi.getClient(this).dolarTodayInformation() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -107,15 +111,16 @@ class UpdateDataService : IntentService(TAG) {
                         val dolarToday: DolarToday =
                                 Gson().fromJson<DolarToday>(json[1],
                                         DolarToday::class.java)
-                        mVefDtd = dolarToday.usd.dolartoday
-                        PreferenceHelper.saveData(this@UpdateDataService, mUsdBtc, mVefBtc, mVefDtd)
+                        vefDtd = dolarToday.usd.dolartoday
+                        PreferenceHelper.saveData(this@UpdateDataService, usdBtc, vefBtc, vefDtd)
 
                         // Fix to two decimals
                         decimalFormat.roundingMode = RoundingMode.CEILING
                         // Show the information
-                        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc.toString())
-                        views.setTextViewText(R.id.dolar_today_text, "1$ - Bs" + mVefDtd.toString())
-                        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(mVefBtc))
+                        views.setTextViewText(R.id.usd_text, "1XBT - $" + usdBtc.toString())
+                        views.setTextViewText(R.id.dolar_today_text, "1$ - Bs" + vefDtd.toString())
+                        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(vefBtc))
+                        views.setTextViewText(R.id.airtm_text, "1$ - Bs" + decimalFormat.format(vefAirtm))
 
                         // Instruct the widget manager to update the widget
                         appWidgetManager.updateAppWidget(appWidgetIds, views)
@@ -129,12 +134,12 @@ class UpdateDataService : IntentService(TAG) {
      * @return same input
      */
     private fun saveUsdBitcoin(response: JsonObject): Double {
-        mUsdBtc = response.get("amount").asDouble
-        mVefBtc /= mUsdBtc
-        views.setTextViewText(R.id.usd_text, "1XBT - $" + mUsdBtc.toString())
-        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(mVefBtc))
+        usdBtc = response.get("amount").asDouble
+        vefBtc /= usdBtc
+        views.setTextViewText(R.id.usd_text, "1XBT - $" + usdBtc.toString())
+        views.setTextViewText(R.id.localbitcoin_text, "1$ - Bs" + decimalFormat.format(vefBtc))
         appWidgetManager.updateAppWidget(appWidgetIds, views)
-        return mVefBtc
+        return vefBtc
     }
 
     /**
@@ -143,8 +148,19 @@ class UpdateDataService : IntentService(TAG) {
      * @return same input
      */
     private fun saveLocalBitcoin(response: JsonObject): Double {
-        mVefBtc = response.get("VEF").asJsonObject.get("avg_24h").asDouble
-        return mVefBtc
+        vefBtc = response.get("VEF").asJsonObject.get("avg_24h").asDouble
+        return vefBtc
+    }
+
+    private fun saveAirtmInformation(response: JsonObject): Double {
+        val results = response.get("results").asJsonArray
+        val result = results.filter {
+            val result = it.asJsonObject
+            result.get("type").asString == "WITHDRAWAL" &&
+                    result.get("localCurrency").asJsonObject.get("ISOcode").asString == "VEF"
+        }.first()
+        vefAirtm = result.asJsonObject.get("clientNetExchangeRateBrToLocalCurrencyApplied").asDouble
+        return vefAirtm
     }
 
     companion object {
