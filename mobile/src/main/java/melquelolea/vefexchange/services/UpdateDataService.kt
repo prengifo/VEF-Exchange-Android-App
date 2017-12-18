@@ -154,11 +154,11 @@ class UpdateDataService : IntentService(TAG) {
 
     private fun saveAirtmInformation(response: JsonObject): Double {
         val results = response.get("results").asJsonArray
-        val result = results.filter {
+        val result = results.first {
             val result = it.asJsonObject
             result.get("type").asString == "WITHDRAWAL" &&
                     result.get("localCurrency").asJsonObject.get("ISOcode").asString == "VEF"
-        }.first()
+        }
         vefAirtm = result.asJsonObject.get("clientNetExchangeRateBrToLocalCurrencyApplied").asDouble
         return vefAirtm
     }
